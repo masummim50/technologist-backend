@@ -301,6 +301,7 @@ export type ProductOrderByWithRelationInput = {
   store?: Prisma.StoreOrderByWithRelationInput
   reviews?: Prisma.ReviewOrderByRelationAggregateInput
   CartItem?: Prisma.CartItemOrderByRelationAggregateInput
+  _relevance?: Prisma.ProductOrderByRelevanceInput
 }
 
 export type ProductWhereUniqueInput = Prisma.AtLeast<{
@@ -495,6 +496,12 @@ export type StringNullableListFilter<$PrismaModel = never> = {
   hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
   hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
   isEmpty?: boolean
+}
+
+export type ProductOrderByRelevanceInput = {
+  fields: Prisma.ProductOrderByRelevanceFieldEnum | Prisma.ProductOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type ProductCountOrderByAggregateInput = {

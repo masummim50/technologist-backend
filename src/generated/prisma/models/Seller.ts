@@ -219,6 +219,7 @@ export type SellerOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   store?: Prisma.StoreOrderByWithRelationInput
+  _relevance?: Prisma.SellerOrderByRelevanceInput
 }
 
 export type SellerWhereUniqueInput = Prisma.AtLeast<{
@@ -343,6 +344,12 @@ export type SellerUncheckedUpdateManyInput = {
   address?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SellerOrderByRelevanceInput = {
+  fields: Prisma.SellerOrderByRelevanceFieldEnum | Prisma.SellerOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type SellerCountOrderByAggregateInput = {

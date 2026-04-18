@@ -207,6 +207,7 @@ export type StoreOrderByWithRelationInput = {
   products?: Prisma.ProductOrderByRelationAggregateInput
   followers?: Prisma.UserOrderByRelationAggregateInput
   orders?: Prisma.OrderOrderByRelationAggregateInput
+  _relevance?: Prisma.StoreOrderByRelevanceInput
 }
 
 export type StoreWhereUniqueInput = Prisma.AtLeast<{
@@ -326,6 +327,12 @@ export type StoreUncheckedUpdateManyInput = {
 export type StoreNullableScalarRelationFilter = {
   is?: Prisma.StoreWhereInput | null
   isNot?: Prisma.StoreWhereInput | null
+}
+
+export type StoreOrderByRelevanceInput = {
+  fields: Prisma.StoreOrderByRelevanceFieldEnum | Prisma.StoreOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type StoreCountOrderByAggregateInput = {

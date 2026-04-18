@@ -237,6 +237,7 @@ export type CartItemOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
+  _relevance?: Prisma.CartItemOrderByRelevanceInput
 }
 
 export type CartItemWhereUniqueInput = Prisma.AtLeast<{
@@ -349,6 +350,12 @@ export type CartItemListRelationFilter = {
 
 export type CartItemOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
+}
+
+export type CartItemOrderByRelevanceInput = {
+  fields: Prisma.CartItemOrderByRelevanceFieldEnum | Prisma.CartItemOrderByRelevanceFieldEnum[]
+  sort: Prisma.SortOrder
+  search: string
 }
 
 export type CartItemUserIdProductIdCompoundUniqueInput = {
