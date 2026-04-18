@@ -18,6 +18,7 @@ app.use("/api/v1", async (req, res, next) => {
     }, 2000);
 }, routes_1.default);
 app.get("/", (req, res) => {
+    console.log('updated code');
     res.sendFile(__dirname + "/index.html");
 });
 app.use((req, res) => {

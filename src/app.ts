@@ -20,6 +20,7 @@ app.use(
 );
 
 app.get("/", (req: Request, res: Response) => {
+  console.log('updated code');
   res.sendFile(__dirname + "/index.html");
 });
 app.use((req: Request, res: Response) => {
