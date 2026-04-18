@@ -7,7 +7,7 @@ import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
 import { ZodError } from "zod";
 import prisma from "./prisma";
-import { Prisma } from "@prisma/client";
+// import { Prisma } from "@prisma/client";
 // import handleZodError from '../../errors/handleZodError';
 // import { IGenericErrorMessage } from '../../interfaces/error';
 
@@ -33,13 +33,15 @@ const globalErrorHandler: ErrorRequestHandler = (
         };
       }),
     ];
-  } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
-    if (error.code === "P2002") {
-      statusCode = 403
-      message = 'Email already exists'
-      errorMessages= [{path:'email', message:'duplicate entry/email already exists'}]
-    }
-  } else if (error instanceof Error) {
+  } 
+  // else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+  //   if (error.code === "P2002") {
+  //     statusCode = 403
+  //     message = 'Email already exists'
+  //     errorMessages= [{path:'email', message:'duplicate entry/email already exists'}]
+  //   }
+  // } 
+  else if (error instanceof Error) {
     console.log("error instance of error");
     message = error?.message;
     errorMessages = error?.message
