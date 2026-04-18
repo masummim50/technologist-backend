@@ -1,10 +1,12 @@
-function excludeField<User, Key extends keyof User>(
+function excludeField<User extends object, Key extends keyof User>(
   user: User,
   keys: Key[]
 ): Omit<User, Key> {
   return Object.fromEntries(
-    Object.entries(user).filter(([key]) => !keys.includes(key))
-  );
+    (Object.entries(user) as [keyof User, any][]).filter(
+      ([key]) => !keys.includes(key as Key)
+    )
+  ) as Omit<User, Key>;
 }
 
 export default excludeField;

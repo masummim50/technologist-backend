@@ -3,9 +3,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 // import handleValidationError from '../../errors/handleValidationError';
-
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import {Prisma} from "../generated/prisma/client";
 import { ZodError } from 'zod';
+import handleZodError from '../error/handleZodError';
+import ApiError from '../shared/apiError';
 
 const globalErrorHandler: ErrorRequestHandler = (
   error,
@@ -15,9 +16,9 @@ const globalErrorHandler: ErrorRequestHandler = (
 ) => {
   let statusCode = 500;
   let message = 'Something went wrong !';
-  let errorMessages = [];
+  let errorMessages:any = [];
 
-  if (error instanceof PrismaClientKnownRequestError) {
+  if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === 'P2002') {
       const fields: string[] = error.meta?.target as string[];
       statusCode = 400;
@@ -60,7 +61,7 @@ const globalErrorHandler: ErrorRequestHandler = (
     success: false,
     message,
     errorMessages,
-    stack: config.env !== 'production' ? error?.stack : undefined,
+    stack: process.env.NODE_ENV !== 'production' ? error?.stack : undefined,
   });
 };
 
