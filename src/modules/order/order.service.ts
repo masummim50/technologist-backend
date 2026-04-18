@@ -1,5 +1,5 @@
-import { Prisma } from "@prisma/client";
-import prisma from "../../shared/prisma";
+import { Prisma } from "../../generated/prisma/client";
+import {prisma} from "../../shared/prisma";
 
 const createOrder = async (items: any, userId: string) => {
   console.log("create order service: ", items);

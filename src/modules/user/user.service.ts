@@ -1,6 +1,6 @@
 import ApiError from "../../shared/apiError";
 import excludeField from "../../shared/excludeField";
-import prisma from "../../shared/prisma";
+import {prisma} from "../../shared/prisma";
 import { userType } from "./user.interface";
 
 const getUserById = async (userId: string): Promise<Partial<userType>> => {

@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import prisma from "../../shared/prisma";
+import {prisma} from "../../shared/prisma";
 import excludeField from "../../shared/excludeField";
 import ApiError from "../../shared/apiError";
 import { sellerType } from "../seller/seller.interface";

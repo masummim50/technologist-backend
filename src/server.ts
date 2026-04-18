@@ -1,5 +1,5 @@
 import app from "./app";
-import prisma from "./shared/prisma";
+import {prisma} from "./shared/prisma";
 
 
 async function main(){

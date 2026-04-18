@@ -1,7 +1,7 @@
 import { connect } from "http2";
 import ApiError from "../../shared/apiError";
 import excludeField from "../../shared/excludeField";
-import prisma from "../../shared/prisma";
+import {prisma} from "../../shared/prisma";
 import {
   getMetaData,
   getPage,

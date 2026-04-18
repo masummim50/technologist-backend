@@ -6,7 +6,7 @@ import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 // import ApiError from '../../errors/ApiError';
 
 import { ZodError } from "zod";
-import prisma from "./prisma";
+import {prisma} from "./prisma";
 // import { Prisma } from "@prisma/client";
 // import handleZodError from '../../errors/handleZodError';
 // import { IGenericErrorMessage } from '../../interfaces/error';
