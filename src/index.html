@@ -1,33 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technologist API Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body{
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --bg-dark: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --get: #10b981;
+            --post: #3b82f6;
+            --patch: #f59e0b;
+            --delete: #ef4444;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(236, 72, 153, 0.15) 0, transparent 50%);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary-light), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .module-section {
+            margin-bottom: 4rem;
+        }
+
+        .module-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
             display: flex;
-            justify-content: center;
-            flex-direction: column;
             align-items: center;
+            gap: 1rem;
+            padding-left: 1rem;
+            border-left: 4px solid var(--primary);
         }
-        a{
-            text-decoration: none;
-            color:green;
-            font-weight: bold;
-            font-size: large;
-            display: inline-block;
-            padding: 5px 15px;
-            background-color: rgb(212, 224, 208);
-            border-radius: 5px;
+
+        .route-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        a:hover{
-            background-color:rgb(197, 214, 191) ;
+
+        .route-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary-light);
+        }
+
+        .route-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .route-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-grow: 1;
+        }
+
+        .method {
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .method.GET {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--get);
+            border: 1px solid var(--get);
+        }
+
+        .method.POST {
+            background: rgba(59, 130, 246, 0.2);
+            color: var(--post);
+            border: 1px solid var(--post);
+        }
+
+        .method.PATCH {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--patch);
+            border: 1px solid var(--patch);
+        }
+
+        .method.DELETE {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--delete);
+            border: 1px solid var(--delete);
+        }
+
+        .path {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background: var(--glass);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--glass-border);
+            flex-grow: 1;
+            word-break: break-all;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        button {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .button-success {
+            background: var(--get) !important;
+            border-color: var(--get) !important;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        @media (min-width: 768px) {
+            .details {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .detail-item h4 {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .detail-item pre {
+            background: #000;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            border: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .requirement {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.6rem;
+            border-radius: 0.3rem;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .tag.auth {
+            background: rgba(236, 72, 153, 0.15);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
-  </head>
+</head>
+
 <body>
-    <h1>View postman documentation here: </h1>
-    <a target="_blank" href="https://documenter.getpostman.com/view/15077773/2sA2xpS8rj">Documentation</a>
+    <div class="container">
+        <header>
+            <h1>Technologist API</h1>
+            <p class="subtitle">Comprehensive documentation for the backend endpoints. Copy routes and explore schemas.
+            </p>
+        </header>
+
+        <div id="content"></div>
+    </div>
+
+    <div id="toast" class="toast">Copied to clipboard!</div>
+
+    <script>
+        const baseUrl = "https://technologist-backend.vercel.app/api/v1";
+
+        const apiData = [
+            {
+                module: "Authentication",
+                routes: [
+                    {
+                        method: "POST",
+                        path: "/auth/seller/signup",
+                        description: "Create a new seller account",
+                        body: { name: "John Doe", email: "seller@example.com", password: "password123", role: "seller" },
+                        response: { success: true, message: "seller account created successfully", data: { id: "...", name: "John Doe", email: "seller@example.com" } }
+                    },
+                    {
+                        method: "POST",
+                        path: "/auth/seller/signin",
+                        description: "Login as a seller",
+                        body: { email: "seller@example.com", password: "password123" },
+                        response: { success: true, message: "seller logged In successfully", data: { accessToken: "JWT_TOKEN", user: { id: "...", role: "seller" } } },
+                        notes: "Sets 'accessToken' cookie"
+                    },
+                    {
+                        method: "POST",
+                        path: "/auth/user/signup",
+                        description: "Create a new customer account",
+                        body: { name: "Jane Smith", email: "user@example.com", password: "password123", role: "user" },
+                        response: { success: true, message: "user account created successfully", data: { id: "...", name: "Jane Smith", email: "user@example.com" } }
+                    },
+                    {
+                        method: "POST",
+                        path: "/auth/user/signin",
+                        description: "Login as a customer",
+                        body: { email: "user@example.com", password: "password123" },
+                        response: { success: true, message: "user logged In successfully", data: { accessToken: "JWT_TOKEN", user: { id: "...", role: "user" } } },
+                        notes: "Sets 'accessToken' cookie"
+                    }
+                ]
+            },
+            {
+                module: "Seller Management",
+                routes: [
+                    {
+                        method: "GET",
+                        path: "/seller/store",
+                        description: "Get current seller's store",
+                        auth: "Seller",
+                        response: { success: true, data: { id: "...", name: "My Store", description: "..." } }
+                    },
+                    {
+                        method: "GET",
+                        path: "/seller/overview",
+                        description: "Get seller dashboard overview",
+                        auth: "Seller",
+                        response: { success: true, data: { totalOrders: 10, totalProducts: 5, earnings: 1000 } }
+                    },
+                    {
+                        method: "POST",
+                        path: "/seller/createstore",
+                        description: "Create a new store",
+                        auth: "Seller",
+                        body: { name: "Vibe Tech", description: "Premium gadgets" },
+                        response: { success: true, message: "store created successfully", data: { id: "...", name: "Vibe Tech" } }
+                    },
+                    {
+                        method: "PATCH",
+                        path: "/seller/updatestore/:id",
+                        description: "Update store details",
+                        auth: "Seller",
+                        body: { name: "Vibe Tech Updated", description: "New description" }
+                    }
+                ]
+            },
+            {
+                module: "Products",
+                routes: [
+                    {
+                        method: "GET",
+                        path: "/product/popular",
+                        description: "Get popular products",
+                        response: { success: true, data: [{ id: "1", name: "Product A", price: 100 }] }
+                    },
+                    {
+                        method: "GET",
+                        path: "/product/newest",
+                        description: "Get newest products",
+                        response: { success: true, data: [{ id: "2", name: "Product B", type: "new" }] }
+                    },
+                    {
+                        method: "GET",
+                        path: "/product/search?query=laptop",
+                        description: "Search products",
+                        response: { success: true, data: [] }
+                    },
+                    {
+                        method: "POST",
+                        path: "/product/create",
+                        description: "Create a new product",
+                        auth: "Seller",
+                        body: { name: "MacBook Pro", category: "Laptops", price: 1999, description: "Powerful laptop", images: ["url1"] },
+                        response: { success: true, data: { id: "...", name: "MacBook Pro" } }
+                    },
+                    {
+                        method: "POST",
+                        path: "/product/addtocart/:id",
+                        description: "Add product to cart",
+                        auth: "Customer",
+                        response: { success: true, message: "Product added to cart successfully" }
+                    }
+                ]
+            },
+            {
+                module: "Orders",
+                routes: [
+                    {
+                        method: "POST",
+                        path: "/order/create-order",
+                        description: "Create a new order from cart",
+                        auth: "Customer",
+                        body: { products: [{ id: "p1", quantity: 2 }], total: 2000 },
+                        response: { success: true, message: "Order placed successfully" }
+                    },
+                    {
+                        method: "PATCH",
+                        path: "/order/ship/:id",
+                        description: "Mark order as shipped",
+                        auth: "Seller",
+                        response: { success: true, message: "Order shipped successfully" }
+                    }
+                ]
+            }
+        ];
+
+        function renderDocs() {
+            const container = document.getElementById('content');
+            apiData.forEach(section => {
+                const sect = document.createElement('div');
+                sect.className = 'module-section';
+                sect.innerHTML = `<h2 class="module-title">${section.module}</h2>`;
+
+                section.routes.forEach(route => {
+                    const card = document.createElement('div');
+                    card.className = 'route-card';
+
+                    const fullRoute = `${baseUrl}${route.path}`;
+
+                    let detailsHtml = '';
+                    if (route.body || route.response) {
+                        detailsHtml = `
+                            <div class="details">
+                                ${route.body ? `
+                                    <div class="detail-item">
+                                        <h4>Request Body</h4>
+                                        <pre><code>${JSON.stringify(route.body, null, 2)}</code></pre>
+                                        <button onclick="copyToClipboard('${JSON.stringify(route.body).replace(/'/g, "\\'")}', event)">Copy Body</button>
+                                    </div>
+                                ` : ''}
+                                ${route.response ? `
+                                    <div class="detail-item">
+                                        <h4>Example Response</h4>
+                                        <pre><code>${JSON.stringify(route.response, null, 2)}</code></pre>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }
+
+                    card.innerHTML = `
+                        <div class="route-header">
+                            <div class="route-info">
+                                <span class="method ${route.method}">${route.method}</span>
+                                <div class="path">${fullRoute}</div>
+                            </div>
+                            <div class="actions">
+                                <button onclick="copyToClipboard('${fullRoute}', event)">Copy Route</button>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-dim); margin-top: 0.5rem; font-size: 0.9rem;">${route.description}</p>
+                        <div class="requirement">
+                            ${route.auth ? `<span class="tag auth">Requires: ${route.auth} Role</span>` : '<span class="tag">Public Access</span>'}
+                            ${route.notes ? `<span class="tag">${route.notes}</span>` : ''}
+                        </div>
+                        ${detailsHtml}
+                    `;
+                    sect.appendChild(card);
+                });
+                container.appendChild(sect);
+            });
+        }
+
+        window.copyToClipboard = function (text, event) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.style.display = 'block';
+
+                const btn = event.currentTarget;
+                const originalText = btn.innerHTML;
+                btn.classList.add('button-success');
+                btn.innerHTML = 'Copied!';
+
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                    btn.classList.remove('button-success');
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+        };
+
+        renderDocs();
+    </script>
 </body>
+
 </html>
