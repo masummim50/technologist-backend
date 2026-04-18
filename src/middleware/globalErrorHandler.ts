@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
 // import handleValidationError from '../../errors/handleValidationError';
-import {Prisma} from "../generated/prisma/client";
+import {Prisma} from "@prisma/client";
 import { ZodError } from 'zod';
 import handleZodError from '../error/handleZodError';
 import ApiError from '../shared/apiError';

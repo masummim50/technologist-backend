@@ -1,4 +1,4 @@
-import { Prisma } from "../../generated/prisma/client";
+import { Prisma } from "@prisma/client";
 import {prisma} from "../../shared/prisma";
 
 const createOrder = async (items: any, userId: string) => {
@@ -48,7 +48,7 @@ const getOrderDetails = async (
     Array.isArray(order.items)
   ) {
     const itemsArray = order.items as Prisma.JsonArray;
-    itemsArray.forEach((item) => {
+    itemsArray.forEach((item:any) => {
       if (typeof item === "object" && item && "productId" in item) {
         arrayOfProductId.push(item.productId as string);
       }

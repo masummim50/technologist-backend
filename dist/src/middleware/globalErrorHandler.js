@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // import handleValidationError from '../../errors/handleValidationError';
-const client_1 = require("../generated/prisma/client");
+const client_1 = require("@prisma/client");
 const zod_1 = require("zod");
 const handleZodError_1 = __importDefault(require("../error/handleZodError"));
 const apiError_1 = __importDefault(require("../shared/apiError"));
