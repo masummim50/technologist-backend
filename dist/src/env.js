@@ -1,4 +1,7 @@
-export const eVariables = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.eVariables = void 0;
+exports.eVariables = {
     NODE_ENV: process.env.NODE_ENV || 'development',
     PORT: process.env.PORT || 3000,
     DB_HOST: process.env.DB_HOST || 'localhost',

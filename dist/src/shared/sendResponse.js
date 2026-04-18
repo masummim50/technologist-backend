@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // const sendResponse = <T>(res: Response, data: IApiReponse<T>): void => {
 //   const responseData: IApiReponse<T> = {
 //     statusCode: data.statusCode,
@@ -19,4 +21,4 @@ const sendResponse = (res, statusCode, success, message, data, meta, token) => {
     };
     res.status(statusCode).json(responseData);
 };
-export default sendResponse;
+exports.default = sendResponse;

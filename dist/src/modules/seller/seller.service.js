@@ -1,6 +1,12 @@
-import ApiError from "../../shared/apiError";
-import excludeField from "../../shared/excludeField";
-import { prisma } from "../../shared/prisma";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.sellerService = void 0;
+const apiError_1 = __importDefault(require("../../shared/apiError"));
+const excludeField_1 = __importDefault(require("../../shared/excludeField"));
+const prisma_1 = require("../../shared/prisma");
 function getLast30Days() {
     const dates = [];
     const today = new Date();
@@ -20,25 +26,25 @@ function getDatePart(dateTimeString) {
     return datePart;
 }
 const getSellerById = async (sellerId) => {
-    const result = await prisma.seller.findUnique({
+    const result = await prisma_1.prisma.seller.findUnique({
         where: { id: sellerId },
     });
     if (result) {
-        const seller = excludeField(result, ["password"]);
+        const seller = (0, excludeField_1.default)(result, ["password"]);
         return seller;
     }
     else {
-        throw new ApiError(400, "seller not found");
+        throw new apiError_1.default(400, "seller not found");
     }
 };
 const createStore = async (sellerId, storeData) => {
-    const result = await prisma.store.create({
+    const result = await prisma_1.prisma.store.create({
         data: { ...storeData, seller: { connect: { id: sellerId } } },
     });
     return result;
 };
 const getStore = async (sellerId) => {
-    const store = await prisma.store.findFirst({
+    const store = await prisma_1.prisma.store.findFirst({
         where: { sellerId: sellerId },
         include: {
             products: true,
@@ -223,9 +229,9 @@ const getStore = async (sellerId) => {
 //   return { salesOverview: {}, orderOverview: formattedOrders };
 // };
 const getSellerOverview = async (sellerId) => {
-    const store = await prisma.store.findFirst({ where: { sellerId } });
+    const store = await prisma_1.prisma.store.findFirst({ where: { sellerId } });
     const storeId = store?.id;
-    const result = await prisma.$queryRaw `
+    const result = await prisma_1.prisma.$queryRaw `
   WITH OrderStats AS (
     SELECT 
       COUNT(*) AS "totalOrders",
@@ -261,7 +267,7 @@ const getSellerOverview = async (sellerId) => {
     const overview = await JSON.parse(serializedResult);
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const recentOrders = await prisma.order.findMany({
+    const recentOrders = await prisma_1.prisma.order.findMany({
         where: {
             updatedAt: {
                 gte: thirtyDaysAgo,
@@ -308,14 +314,14 @@ const getSellerOverview = async (sellerId) => {
     };
 };
 const updateStoreById = async (storeId, sellerId, data) => {
-    const update = await prisma.store.update({
+    const update = await prisma_1.prisma.store.update({
         where: { id: storeId, sellerId },
         data,
     });
     return update;
 };
 const getStoreById = async (storeId) => {
-    const store = await prisma.store.findFirst({
+    const store = await prisma_1.prisma.store.findFirst({
         where: { id: storeId },
         select: {
             id: true,
@@ -327,7 +333,7 @@ const getStoreById = async (storeId) => {
     });
     return store;
 };
-export const sellerService = {
+exports.sellerService = {
     getSellerById,
     createStore,
     getStore,

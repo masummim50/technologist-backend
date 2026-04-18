@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const catchAsync = (fn) => async (req, res, next) => {
     const allowedOrigins = ["http://localhost:3000"];
     const origin = req.headers.origin;
@@ -15,4 +17,4 @@ const catchAsync = (fn) => async (req, res, next) => {
         next(error);
     }
 };
-export default catchAsync;
+exports.default = catchAsync;

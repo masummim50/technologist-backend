@@ -1,10 +1,15 @@
-export const getPage = (query) => {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSkip = exports.getMetaData = exports.getTotalPage = exports.getPage = void 0;
+const getPage = (query) => {
     return Number(query.page) || 1;
 };
-export const getTotalPage = (count, limit) => {
+exports.getPage = getPage;
+const getTotalPage = (count, limit) => {
     return Math.ceil(count / limit);
 };
-export const getMetaData = (page, limit, count, totalPage) => {
+exports.getTotalPage = getTotalPage;
+const getMetaData = (page, limit, count, totalPage) => {
     return {
         page,
         size: limit,
@@ -12,6 +17,8 @@ export const getMetaData = (page, limit, count, totalPage) => {
         totalPage: totalPage,
     };
 };
-export const getSkip = (page, limit) => {
+exports.getMetaData = getMetaData;
+const getSkip = (page, limit) => {
     return (page - 1) * limit;
 };
+exports.getSkip = getSkip;

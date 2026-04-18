@@ -1,30 +1,36 @@
-import bcrypt from "bcrypt";
-import { prisma } from "../../shared/prisma";
-import excludeField from "../../shared/excludeField";
-import ApiError from "../../shared/apiError";
-import { bcryptFunctions } from "../../shared/bcrypt";
-import { jwtFunctions } from "../../shared/jwt";
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.authService = void 0;
+const bcrypt_1 = __importDefault(require("bcrypt"));
+const prisma_1 = require("../../shared/prisma");
+const excludeField_1 = __importDefault(require("../../shared/excludeField"));
+const apiError_1 = __importDefault(require("../../shared/apiError"));
+const bcrypt_2 = require("../../shared/bcrypt");
+const jwt_1 = require("../../shared/jwt");
 // seller related services
 const createSeller = async (seller) => {
-    const userExist = await prisma.user.findUnique({
+    const userExist = await prisma_1.prisma.user.findUnique({
         where: { email: seller.email },
     });
     if (userExist) {
-        throw new ApiError(400, "Email Already exists");
+        throw new apiError_1.default(400, "Email Already exists");
     }
-    seller.password = bcrypt.hashSync(seller.password, 10);
-    const result = await prisma.seller.create({ data: seller });
-    const withoutPassword = excludeField(result, ["password"]);
+    seller.password = bcrypt_1.default.hashSync(seller.password, 10);
+    const result = await prisma_1.prisma.seller.create({ data: seller });
+    const withoutPassword = (0, excludeField_1.default)(result, ["password"]);
     return withoutPassword;
 };
 const loginSeller = async (email, password) => {
-    const seller = await prisma.seller.findUnique({ where: { email: email } });
+    const seller = await prisma_1.prisma.seller.findUnique({ where: { email: email } });
     if (!seller) {
-        throw new ApiError(400, "Invalid credentials/seller not found with that email");
+        throw new apiError_1.default(400, "Invalid credentials/seller not found with that email");
     }
-    const matchPassword = bcryptFunctions.verifyPassword(seller.password, password);
+    const matchPassword = bcrypt_2.bcryptFunctions.verifyPassword(seller.password, password);
     if (!matchPassword) {
-        throw new ApiError(400, "Invalid credentials/incorrect email or password");
+        throw new apiError_1.default(400, "Invalid credentials/incorrect email or password");
     }
     const payload = {
         id: seller.id,
@@ -32,7 +38,7 @@ const loginSeller = async (email, password) => {
         email: seller.email,
         role: seller.role,
     };
-    const token = jwtFunctions.generateToken(payload);
+    const token = jwt_1.jwtFunctions.generateToken(payload);
     const responseData = {
         user: payload,
         accessToken: token,
@@ -41,25 +47,25 @@ const loginSeller = async (email, password) => {
 };
 // user related services
 const createUser = async (user) => {
-    const userExist = await prisma.seller.findUnique({
+    const userExist = await prisma_1.prisma.seller.findUnique({
         where: { email: user.email },
     });
     if (userExist) {
-        throw new ApiError(400, "Email Already exists");
+        throw new apiError_1.default(400, "Email Already exists");
     }
-    user.password = bcrypt.hashSync(user.password, 10);
-    const result = await prisma.user.create({ data: user });
-    const withoutPassword = excludeField(result, ["password"]);
+    user.password = bcrypt_1.default.hashSync(user.password, 10);
+    const result = await prisma_1.prisma.user.create({ data: user });
+    const withoutPassword = (0, excludeField_1.default)(result, ["password"]);
     return withoutPassword;
 };
 const loginUser = async (email, password) => {
-    const user = await prisma.user.findUnique({ where: { email: email } });
+    const user = await prisma_1.prisma.user.findUnique({ where: { email: email } });
     if (!user) {
-        throw new ApiError(400, "Invalid credentials/user not found with that email");
+        throw new apiError_1.default(400, "Invalid credentials/user not found with that email");
     }
-    const matchPassword = bcryptFunctions.verifyPassword(user.password, password);
+    const matchPassword = bcrypt_2.bcryptFunctions.verifyPassword(user.password, password);
     if (!matchPassword) {
-        throw new ApiError(400, "Invalid credentials/incorrect email or password");
+        throw new apiError_1.default(400, "Invalid credentials/incorrect email or password");
     }
     const payload = {
         id: user.id,
@@ -67,11 +73,11 @@ const loginUser = async (email, password) => {
         email: user.email,
         role: user.role,
     };
-    const token = jwtFunctions.generateToken(payload);
+    const token = jwt_1.jwtFunctions.generateToken(payload);
     const responseData = { user: payload, accessToken: token };
     return responseData;
 };
-export const authService = {
+exports.authService = {
     createSeller,
     loginSeller,
     createUser,

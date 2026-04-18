@@ -1,4 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function excludeField(user, keys) {
     return Object.fromEntries(Object.entries(user).filter(([key]) => !keys.includes(key)));
 }
-export default excludeField;
+exports.default = excludeField;

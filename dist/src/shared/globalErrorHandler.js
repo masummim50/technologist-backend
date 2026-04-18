@@ -1,6 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // import config from '../../config';
 // import ApiError from '../../errors/ApiError';
-import { ZodError } from "zod";
+const zod_1 = require("zod");
 // import { Prisma } from "@prisma/client";
 // import handleZodError from '../../errors/handleZodError';
 // import { IGenericErrorMessage } from '../../interfaces/error';
@@ -9,7 +11,7 @@ const globalErrorHandler = (error, req, res, next) => {
     let statusCode = 400;
     let message = "Something went wrong !";
     let errorMessages = [];
-    if (error instanceof ZodError) {
+    if (error instanceof zod_1.ZodError) {
         // console.log("zod error recieved", error);
         message = "validation failed";
         errorMessages = [
@@ -47,4 +49,4 @@ const globalErrorHandler = (error, req, res, next) => {
         // stack: config.env !== 'production' ? error?.stack : undefined,
     });
 };
-export default globalErrorHandler;
+exports.default = globalErrorHandler;
