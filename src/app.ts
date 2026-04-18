@@ -21,7 +21,7 @@ app.use(
 
 app.get("/", (req: Request, res: Response) => {
   console.log('updated code');
-  res.send("Hello World!");
+  res.send("Hello World!SSS");
   // res.sendFile(__dirname + "/index.html");
 });
 app.use((req: Request, res: Response) => {
