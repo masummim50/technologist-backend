@@ -1,0 +1,118 @@
+
+
+datasource db {
+  provider = "postgresql"
+}
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+
+model Seller {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  role      String   @default("seller")
+  password  String   @default("")
+  address   String   @default("")
+  store     Store?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Store {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  seller      Seller    @relation(fields: [sellerId], references: [id])
+  sellerId    String    @unique
+  products    Product[]
+  followers   User[]    @relation(name: "StoreFollowers")
+  orders      Order[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+}
+
+model User {
+  id             String     @id @default(uuid())
+  name           String
+  email          String     @unique
+  password       String
+  address        String     @default("")
+  role           String     @default("customer")
+  reviews        Review[]
+  cart           CartItem[]
+  followedStores Store[]    @relation(name: "StoreFollowers")
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now()) @updatedAt
+  orders         Order[]
+}
+
+model CartItem {
+  id       String  @id @default(uuid())
+  product  Product @relation(fields: [productId], references: [id])
+  quantity Int
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  productId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@unique([userId, productId])
+}
+
+model Product {
+  id          String     @id @default(uuid())
+  name        String
+  description String
+  price       Float
+  stock       Int
+  discount    Int        @default(0)
+  category    String
+  images      String[]
+  sales       Int        @default(0)
+  storeId     String
+  store       Store      @relation(fields: [storeId], references: [id])
+  reviews     Review[]
+  CartItem    CartItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now()) @updatedAt
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  content   String
+  rating    Int
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  userId    String
+  orderId   String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Order {
+  id            String @id @default(uuid())
+  status        String @default("pending")
+  storeId       String
+  paymentStatus String @default("due")
+  paymentMethod String @default("cash")
+  paymentAmount Float
+  userId        String
+  user          User   @relation(fields: [userId], references: [id])
+  Store         Store  @relation(fields: [storeId], references: [id]) // Optional relation to the Store model
+
+  items     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  PROCESSING
+  COMPLETE
+}
