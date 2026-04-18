@@ -19,7 +19,8 @@ app.use("/api/v1", async (req, res, next) => {
 }, routes_1.default);
 app.get("/", (req, res) => {
     console.log('updated code');
-    res.sendFile(__dirname + "/index.html");
+    res.send("Hello World!");
+    // res.sendFile(__dirname + "/index.html");
 });
 app.use((req, res) => {
     res.status(404).send({ message: "Route not found", requested: req.url });
