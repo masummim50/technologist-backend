@@ -20,7 +20,7 @@ const globalErrorHandler: ErrorRequestHandler = (
   console.log("global error handler beginning", error);
   let statusCode = 400;
   let message = "Something went wrong !";
-  let errorMessages = [];
+  let errorMessages:any = [];
 
   if (error instanceof ZodError) {
     // console.log("zod error recieved", error);

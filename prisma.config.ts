@@ -9,6 +9,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: "postgresql://masum:1234@localhost:5432/masum?schema=public"
+    url: process.env.DATABASE_URL
   },
 });
