@@ -1,11 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-// import config from '../../config';
-// import ApiError from '../../errors/ApiError';
 const zod_1 = require("zod");
-// import { Prisma } from "@prisma/client";
-// import handleZodError from '../../errors/handleZodError';
-// import { IGenericErrorMessage } from '../../interfaces/error';
 const globalErrorHandler = (error, req, res, next) => {
     console.log("global error handler beginning", error);
     let statusCode = 400;

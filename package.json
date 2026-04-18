@@ -9,6 +9,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "migrate": "npx prisma migrate dev --name migration",
     "postinstall": "prisma generate",
+    "vercel-build": "prisma migrate deploy && prisma generate",
     "build": "prisma generate && tsc"
   },
   "keywords": [],
